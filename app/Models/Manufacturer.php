@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Manufacturer extends Model
+{
+    protected $fillable =[
+        'name',
+        'country_of_origin',
+    ];
+
+    public function Drones():HasMany{
+        return $this->hasMany(Survey_Drone::class, 'manufacturer_id');
+    }
+}

@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use PhpParser\Node\Stmt\Return_;
+
+class primordial_duck extends Model
+{
+    protected $fillable =[
+        'designation',
+        'height_cm',
+        'weight_g',
+        'last_known_city',
+        'last_known_country',
+        'last_known_lat',
+        'last_known_lon',
+        'gps_precision_m',
+        'reference_point',
+        'hibernation_status',
+        'heart_rate_bpm',
+        'mutation_count'
+    ];
+
+    public function superpower():HasOne{
+        return $this->hasOne(Superpower::class, 'primordial_duck_id');
+    }
+    public function duck_sighting_log():HasMany{
+        return $this->hasMany(Sighting_Log::class, 'primordial_duck_id');
+    }
+}
