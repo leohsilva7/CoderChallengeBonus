@@ -11,8 +11,12 @@ class Manufacturer extends Model
         'name',
         'country_of_origin',
     ];
-
+    protected $hidden =[
+        'updated_at',
+        'created_at'
+    ];
     public function Drones():HasMany{
         return $this->hasMany(SurveyDrone::class, 'manufacturer_id');
     }
 }
+    

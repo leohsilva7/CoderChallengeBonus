@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PrimordialDuck;
 use App\Models\SightingLog;
+use App\Models\SurveyDrone;
 use Illuminate\Http\Request;
 
 class SightingLogController extends Controller
@@ -12,54 +14,28 @@ class SightingLogController extends Controller
      */
     public function index()
     {
-        //
+        $logs = SightingLog::all();
+
+        return response()->json([
+            'message' => 'Consultados Todos os Logs de Avistamento de Patos',
+            'logs' => $logs
+        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function indexForDuck(PrimordialDuck $primordialDuck){
+        $primordialDuck->load('duck_sighting_log');
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json([
+            'message' => 'Consulta do Pato',
+            'primordialDuck' => $primordialDuck
+        ], 200);
     }
+    public function indexForDrone(SurveyDrone $surveyDrone){
+        $surveyDrone->load('sighting_logs');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(SightingLog $sightingLog)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SightingLog $sightingLog)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SightingLog $sightingLog)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SightingLog $sightingLog)
-    {
-        //
+        return response()->json([
+            'message' => 'Consultada de Todas as Logs do Drone',
+            "sighting_logs" => $surveyDrone->sighting_logs
+        ], 200);
     }
 }

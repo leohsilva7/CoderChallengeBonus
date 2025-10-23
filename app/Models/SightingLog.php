@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SightingLog extends Model
 {
@@ -12,4 +13,17 @@ class SightingLog extends Model
         'survey_drone_id',
         'primordial_duck_id'
     ];
+    protected $hidden =[
+        'updated_at',
+        'created_at'
+    ];
+    protected $casts = [
+        "raw_data_payload" => 'array',
+    ];
+    public function DuckSight():BelongsTo{
+        return $this->belongsTo(PrimordialDuck::class);
+    }
+    public function DroneSight():BelongsTo{
+        return $this->belongsTo(SurveyDrone::class);
+    }
 }

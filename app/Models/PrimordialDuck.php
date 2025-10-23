@@ -23,7 +23,10 @@ class PrimordialDuck extends Model
         'heart_rate_bpm',
         'mutation_count'
     ];
-
+    protected $hidden =[
+        'updated_at',
+        'created_at'
+    ];
     public function superpower():HasOne{
         return $this->hasOne(Superpower::class, 'primordial_duck_id');
     }
