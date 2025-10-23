@@ -24,9 +24,9 @@ class PrimordialDuckController extends Controller
         $primordialDuck->load('duck_sighting_log');
         return response()->json([
             'message' => 'Consultado o Pato Primodrial',
-            'PrimodialDuck' => $primordialDuck,
-            'superPower' => $primordialDuck->superPower,
-            'sighting_log' => $primordialDuck->duck_sighting_log
+            'PatoPrimordial' => $primordialDuck,
+            'SuperPoder' => $primordialDuck->superPower,
+            'LogAvistamento' => $primordialDuck->duck_sighting_log
         ], 200);
     }
 }

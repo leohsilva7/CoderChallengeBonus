@@ -16,7 +16,7 @@ class ManufacturerController extends Controller
 
         return response()->json([
             'message' => 'Todas as Fabricantes',
-            'manufacturers' => $manufacturers
+            'fabricantes' => $manufacturers
         ], 200);
     }
 
@@ -38,7 +38,7 @@ class ManufacturerController extends Controller
 
             return response()->json([
                 'message' => 'Fabricante Adicionada Com Sucesso!',
-                'manufacturer' => $newManufacturer
+                'fabricante' => $newManufacturer
             ], 201);
         } catch (\Exception $ex) {
             return response()->json([
@@ -54,7 +54,7 @@ class ManufacturerController extends Controller
         if ($manufacturer){
             return response()->json([
                 'message' => 'Consulta de Fabricante',
-                'manufacturer' => $manufacturer
+                'fabricante' => $manufacturer
            ], 200);
         }
         else{
@@ -76,12 +76,12 @@ class ManufacturerController extends Controller
 
             return response()->json([
                 'message' => 'Fabricante Atualizada com Sucesso!',
-                'manufacturer' => $manufacturer
+                'fabricante' => $manufacturer
             ], 200);
         } catch (\Exception $ex) {
             return response()->json([
                 'error' => 'Erro ao Atualizar Fabricante.'
-            ]);
+            ], 404);
         }
     }
 

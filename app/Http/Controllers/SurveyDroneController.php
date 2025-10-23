@@ -16,7 +16,7 @@ class SurveyDroneController extends Controller
 
         return response()->json([
             'message' => 'Consulta de Todos os Drones',
-            'surver_drones' => $surveyDrones
+            'DronesPesquisa' => $surveyDrones
         ], 200);
     }
     public function store(Request $request)
@@ -34,7 +34,7 @@ class SurveyDroneController extends Controller
             ]);
             return response()->json([
                 'message' => 'Drone Adicionado com Sucesso!',
-                'survey_drone' => $newSurveyDrone
+                'DronePesquisa' => $newSurveyDrone
             ], 201);
         } catch (\Exception $ex) {
             return response()->json([
@@ -52,7 +52,7 @@ class SurveyDroneController extends Controller
 
         return response()->json([
             'message' => 'Consultando Drone',
-            'survey_drone' => $surveyDrone
+            'DronePesquisa' => $surveyDrone
         ],200);
     }
     /**
@@ -70,7 +70,7 @@ class SurveyDroneController extends Controller
             ]);
             return response()->json([
                 'message' => 'Drone Atualizado com Sucesso!',
-                'survey_drone' => $surveyDrone
+                'DronePesquisa' => $surveyDrone
             ], 200);
         } catch (\Exception $ex) {
             return response()->json([

@@ -17,7 +17,7 @@ class SightingLogController extends Controller
         $logs = SightingLog::all();
 
         return response()->json([
-            'message' => 'Consultados Todos os Logs de Avistamento de Patos',
+            'message' => 'Consultando Todos os Logs de Avistamento de Patos',
             'logs' => $logs
         ], 200);
     }
@@ -27,7 +27,7 @@ class SightingLogController extends Controller
 
         return response()->json([
             'message' => 'Consulta do Pato',
-            'primordialDuck' => $primordialDuck
+            'PatoPrimordial' => $primordialDuck
         ], 200);
     }
     public function indexForDrone(SurveyDrone $surveyDrone){
@@ -35,7 +35,7 @@ class SightingLogController extends Controller
 
         return response()->json([
             'message' => 'Consultada de Todas as Logs do Drone',
-            "sighting_logs" => $surveyDrone->sighting_logs
+            "LogsAvistamento" => $surveyDrone->sighting_logs
         ], 200);
     }
 }
