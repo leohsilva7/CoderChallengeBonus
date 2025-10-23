@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sighting__logs', function (Blueprint $table) {
+        Schema::create('sighting_logs', function (Blueprint $table) {
             $table->id();
             $table->json('raw_data_payload');
             $table->timestamp('sighted_at');
 
             $table->foreignId('survey_drone_id')
-            ->constrained('survey__drones')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+                ->constrained('survey_drones')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->foreignId('primordial_duck_id')
-            ->constrained('primordial_ducks')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+                ->constrained('primordial_ducks')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sighting__logs');
+        Schema::dropIfExists('sighting_logs');
     }
 };

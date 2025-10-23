@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Survey_Drone;
+use App\Models\SurveyDrone;
 use Illuminate\Http\Request;
 
 class SurveyDroneController extends Controller
@@ -12,12 +12,7 @@ class SurveyDroneController extends Controller
      */
     public function index()
     {
-        $drone = Survey_Drone::all();
-
-        return response()->json([
-            "message" =>"Todos os Drone",
-            'drone' => $drone
-    ]);
+        //
     }
 
     /**
@@ -39,7 +34,7 @@ class SurveyDroneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Survey_Drone $survey_Drone)
+    public function show(SurveyDrone $surveyDrone)
     {
         //
     }
@@ -47,7 +42,7 @@ class SurveyDroneController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Survey_Drone $survey_Drone)
+    public function edit(SurveyDrone $surveyDrone)
     {
         //
     }
@@ -55,7 +50,7 @@ class SurveyDroneController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Survey_Drone $survey_Drone)
+    public function update(Request $request, SurveyDrone $surveyDrone)
     {
         //
     }
@@ -63,7 +58,7 @@ class SurveyDroneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Survey_Drone $survey_Drone)
+    public function destroy(SurveyDrone $surveyDrone)
     {
         //
     }

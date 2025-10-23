@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sighting_Log extends Model
+class SightingLog extends Model
 {
     protected $fillable =[
         'raw_data_payload',

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sighting_Log;
+use App\Models\SightingLog;
 use Illuminate\Http\Request;
 
 class SightingLogController extends Controller
@@ -34,7 +34,7 @@ class SightingLogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sighting_Log $sighting_Log)
+    public function show(SightingLog $sightingLog)
     {
         //
     }
@@ -42,7 +42,7 @@ class SightingLogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Sighting_Log $sighting_Log)
+    public function edit(SightingLog $sightingLog)
     {
         //
     }
@@ -50,7 +50,7 @@ class SightingLogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sighting_Log $sighting_Log)
+    public function update(Request $request, SightingLog $sightingLog)
     {
         //
     }
@@ -58,7 +58,7 @@ class SightingLogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sighting_Log $sighting_Log)
+    public function destroy(SightingLog $sightingLog)
     {
         //
     }

@@ -13,6 +13,6 @@ class Manufacturer extends Model
     ];
 
     public function Drones():HasMany{
-        return $this->hasMany(Survey_Drone::class, 'manufacturer_id');
+        return $this->hasMany(SurveyDrone::class, 'manufacturer_id');
     }
 }

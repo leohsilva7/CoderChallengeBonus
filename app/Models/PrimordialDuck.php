@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use PhpParser\Node\Stmt\Return_;
 
-class primordial_duck extends Model
+class PrimordialDuck extends Model
 {
     protected $fillable =[
         'designation',
@@ -28,6 +28,6 @@ class primordial_duck extends Model
         return $this->hasOne(Superpower::class, 'primordial_duck_id');
     }
     public function duck_sighting_log():HasMany{
-        return $this->hasMany(Sighting_Log::class, 'primordial_duck_id');
+        return $this->hasMany(SightingLog::class, 'primordial_duck_id');
     }
 }

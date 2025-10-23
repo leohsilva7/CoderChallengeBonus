@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survey__drones', function (Blueprint $table) {
+        Schema::create('survey_drones', function (Blueprint $table) {
             $table->id();
             $table->string('serial_number')->unique();
             $table->string('brand');
 
             $table->foreignId('manufacturer_id')
-            ->constrained('manufacturers')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+                ->constrained('manufacturers')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('survey__drones');
+        Schema::dropIfExists('survey_drones');
     }
 };
