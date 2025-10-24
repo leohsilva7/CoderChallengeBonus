@@ -4,6 +4,7 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PrimordialDuckController;
 use App\Http\Controllers\SightingLogController;
 use App\Http\Controllers\SurveyDroneController;
+use App\Http\Controllers\SightingIngestionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,4 @@ Route::get('/primordial-ducks/{primordialDuck:designation}', [PrimordialDuckCont
 Route::get('/primordial-ducks/{primordialDuck:designation}/logs', [SightingLogController::class, 'indexForDuck']);
 Route::get('/survey-drones/{surveyDrone:serial_number}/logs', [SightingLogController::class, 'indexForDrone']);
 Route::get('/sighting-logs', [SightingLogController::class, 'index']);
+Route::post('/sightings' , SightingIngestionController::class);

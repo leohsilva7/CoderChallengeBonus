@@ -6,7 +6,7 @@ class UnitConversionService
 {
     private const FEET_TO_CM = 30.48;
     private const LBS_TO_G = 453.592;
-    private  const YARDS_TO_M = 0.9144;
+    private const YARDS_TO_M = 0.9144;
 
     public function toCm(float $value, string $unit): float
     {

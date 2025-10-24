@@ -23,7 +23,8 @@ class StoreSightingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'serial_number' => 'required|exists:survey_drones,serial_number',
+            'drone_serial_number' => 'required|string|exists:survey_drones,serial_number',
+            'designation' => 'required|string|max:255',
             'height' => 'required|numeric',
             'height_unit' => 'required|in:cm,feet',
             'weight' => 'required|numeric',
@@ -35,7 +36,7 @@ class StoreSightingRequest extends FormRequest
             'city_name' => 'nullable|string',
             'country_name' => 'nullable|string',
             'hibernation_status' => ['required', Rule::in(['desperto', 'em_transe', 'hibernacao_profunda'])],
-            'heart_beat_bpm' => 'nullable|required_if:hibernation_status,em_transe,hibernacao_profunda',
+            'heart_rate_bpm' => 'nullable|required_if:hibernation_status,em_transe,hibernacao_profunda',
             'mutation_count' => 'required|integer',
             'superpower_name' => 'nullable|required_if:hibernation_status,desperto',
             'superpower_description' => 'nullable|required_if:hibernation_status,desperto',

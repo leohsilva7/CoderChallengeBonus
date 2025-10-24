@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PrimordialDuckResource;
 use App\Models\PrimordialDuck;
 use App\Models\Superpower;
 use Illuminate\Http\Request;
@@ -9,24 +10,17 @@ use Illuminate\Http\Request;
 class PrimordialDuckController extends Controller
 {
     public function index(Request $request){
-        $query = PrimordialDuck::query();
+        // Use 'with()' para Eager Loading e evitar N+1 queries
+        $ducks = PrimordialDuck::with('superpower')->paginate();
 
-        if ($request->has('country')){
-            $query->where('last_known_country', 'like', '%'. $request->country. '%');
-        }
-        if ($request->has('status')){
-            $query->where('hibernation_status', 'like', '%'. $request->status. '%');
-        }
-        return response()->json($query->get());
+        // Retorne a coleção de Resources
+        return PrimordialDuckResource::collection($ducks);
     }
     public function show(PrimordialDuck $primordialDuck){
+        // Carregue os relacionamentos
         $primordialDuck->load('superpower');
-        $primordialDuck->load('duck_sighting_log');
-        return response()->json([
-            'message' => 'Consultado o Pato Primodrial',
-            'PatoPrimordial' => $primordialDuck,
-            'SuperPoder' => $primordialDuck->superPower,
-            'LogAvistamento' => $primordialDuck->duck_sighting_log
-        ], 200);
+
+        // Retorne um único Resource
+        return new PrimordialDuckResource($primordialDuck);
     }
 }

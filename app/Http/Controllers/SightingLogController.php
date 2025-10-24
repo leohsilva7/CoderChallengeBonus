@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SightingLogResource;
 use App\Models\PrimordialDuck;
 use App\Models\SightingLog;
 use App\Models\SurveyDrone;
@@ -14,12 +15,12 @@ class SightingLogController extends Controller
      */
     public function index()
     {
-        $logs = SightingLog::all();
+        // Carregue AMBOS os relacionamentos!
+        $logs = SightingLog::with(['primordialDuck', 'surveyDrone'])
+            ->orderBy('sighted_at', 'desc')
+            ->paginate();
 
-        return response()->json([
-            'message' => 'Consultando Todos os Logs de Avistamento de Patos',
-            'logs' => $logs
-        ], 200);
+        return SightingLogResource::collection($logs);
     }
 
     public function indexForDuck(PrimordialDuck $primordialDuck){

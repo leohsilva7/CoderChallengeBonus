@@ -18,7 +18,8 @@ class Superpower extends Model
     ];
     protected $hidden =[
         'updated_at',
-        'created_at'
+        'created_at',
+        'primordial_duck_id',
     ];
     public function primordialDuckSuperPower(): BelongsTo{
         return $this->belongsTo(PrimordialDuck::class);
