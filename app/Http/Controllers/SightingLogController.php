@@ -16,11 +16,11 @@ class SightingLogController extends Controller
     public function index()
     {
         // Carregue AMBOS os relacionamentos!
-        $logs = SightingLog::with(['primordialDuck', 'surveyDrone'])
+        $logs = SightingLog::with(['DuckSight', 'DroneSight'])
             ->orderBy('sighted_at', 'desc')
-            ->paginate();
+            ->get();
 
-        return SightingLogResource::collection($logs);
+        return ($logs);
     }
 
     public function indexForDuck(PrimordialDuck $primordialDuck){

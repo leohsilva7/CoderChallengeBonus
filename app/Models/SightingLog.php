@@ -19,6 +19,7 @@ class SightingLog extends Model
     ];
     protected $casts = [
         "raw_data_payload" => 'array',
+        'sighted_at' => 'datetime'
     ];
     public function DuckSight():BelongsTo{
         return $this->belongsTo(PrimordialDuck::class);

@@ -33,4 +33,8 @@ class PrimordialDuck extends Model
     public function duck_sighting_log():HasMany{
         return $this->hasMany(SightingLog::class, 'primordial_duck_id');
     }
+    public function analysis():HasOne
+    {
+        return $this->hasOne(DuckAnalyse::class, 'primordial_duck_id');
+    }
 }

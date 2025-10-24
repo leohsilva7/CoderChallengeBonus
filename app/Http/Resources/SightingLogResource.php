@@ -24,8 +24,8 @@ class SightingLogResource extends JsonResource
 
             // Você também pode fazer isso para o drone
             'drone' => [
-                'serial_number' => $this->whenLoaded('surveyDrone', $this->surveyDrone->serial_number),
-                'brand' => $this->whenLoaded('surveyDrone', $this->surveyDrone->brand),
+                'serial_number' => $this->whenLoaded('DroneSight', $this->surveyDrone?->serial_number),
+                'brand' => $this->whenLoaded('DroneSight', $this->surveyDrone?->brand),
             ],
             // --------------------
 
