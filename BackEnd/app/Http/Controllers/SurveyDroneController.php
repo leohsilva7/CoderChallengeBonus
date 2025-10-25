@@ -58,7 +58,7 @@ class SurveyDroneController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SurveyDrone $id)
+    public function update(Request $request, string $id)
     {
         $surveyDrone = SurveyDrone::findOrFail($id);
 
@@ -82,7 +82,7 @@ class SurveyDroneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SurveyDrone $id)
+    public function destroy(string $id)
     {
         $surveyDrone = SurveyDrone::findOrFail($id);
 

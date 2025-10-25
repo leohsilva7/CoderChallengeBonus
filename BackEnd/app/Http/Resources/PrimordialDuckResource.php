@@ -28,9 +28,7 @@ class PrimordialDuckResource extends JsonResource
             ],
             // Carrega o superpoder SÓ SE ele foi incluído na consulta (com ->load() ou ->with())
             'superpower' => new SuperpowerResource($this->whenLoaded('superpower')),
-            'analysis' => new DuckAnalysisResource($this->whenLoaded('analysis')),
             'updated_at' => $this->updated_at->toIso8601String(),
-
         ];
     }
 }

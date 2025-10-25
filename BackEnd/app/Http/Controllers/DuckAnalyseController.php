@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DuckAnalysis;
+use App\Models\DuckAnalyse;
 use Illuminate\Http\Request;
 
-class DuckAnalysisController extends Controller
+class DuckAnalyseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class DuckAnalysisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DuckAnalysis $duckAnalysis)
+    public function show(DuckAnalyse $duckAnalyse)
     {
         //
     }
@@ -42,7 +42,7 @@ class DuckAnalysisController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DuckAnalysis $duckAnalysis)
+    public function edit(DuckAnalyse $duckAnalyse)
     {
         //
     }
@@ -50,7 +50,7 @@ class DuckAnalysisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DuckAnalysis $duckAnalysis)
+    public function update(Request $request, DuckAnalyse $duckAnalyse)
     {
         //
     }
@@ -58,7 +58,7 @@ class DuckAnalysisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DuckAnalysis $duckAnalysis)
+    public function destroy(DuckAnalyse $duckAnalyse)
     {
         //
     }

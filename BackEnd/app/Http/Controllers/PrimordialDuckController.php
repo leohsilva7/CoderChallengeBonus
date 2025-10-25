@@ -11,14 +11,14 @@ class PrimordialDuckController extends Controller
 {
     public function index(Request $request){
         // Use 'with()' para Eager Loading e evitar N+1 queries
-        $ducks = PrimordialDuck::with('superpower', 'analysis')->get();
+        $ducks = PrimordialDuck::with('superpower')->paginate();
 
         // Retorne a coleção de Resources
         return PrimordialDuckResource::collection($ducks);
     }
     public function show(PrimordialDuck $primordialDuck){
         // Carregue os relacionamentos
-        $primordialDuck->load('superpower', 'analysis');
+        $primordialDuck->load('superpower');
 
         // Retorne um único Resource
         return new PrimordialDuckResource($primordialDuck);
