@@ -46,31 +46,27 @@ class SurveyDroneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(SurveyDrone $survey_drone)
     {
-        $surveyDrone = SurveyDrone::findOrFail($id);
-
         return response()->json([
             'message' => 'Consultando Drone',
-            'DronePesquisa' => $surveyDrone
+            'DronePesquisa' => $survey_drone
         ],200);
     }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+        public function update(Request $request, SurveyDrone $survey_drone)
     {
-        $surveyDrone = SurveyDrone::findOrFail($id);
-
         try {
-            $update = $surveyDrone->update([
+            $update = $survey_drone->update([
                 'serial_number' => $request->serial_number,
                 'brand' => $request->brand,
                 'manufacturer_id' => $request->manufacturer_id
             ]);
             return response()->json([
                 'message' => 'Drone Atualizado com Sucesso!',
-                'DronePesquisa' => $surveyDrone
+                'DronePesquisa' => $survey_drone
             ], 200);
         } catch (\Exception $ex) {
             return response()->json([
@@ -82,7 +78,7 @@ class SurveyDroneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SurveyDrone $id)
     {
         $surveyDrone = SurveyDrone::findOrFail($id);
 

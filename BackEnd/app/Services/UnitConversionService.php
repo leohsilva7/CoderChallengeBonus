@@ -14,17 +14,16 @@ class UnitConversionService
             return $value * self::FEET_TO_CM;
         }
         return  $value;
+    }public function toGrams (float $value, string $unit): float
+{
+    if ($unit === "lbs"){ // <-- CORREÇÃO
+        return $value * self::LBS_TO_G;
     }
-    public function toGrams (float $value, string $unit): float
-    {
-        if ($unit == "lbs"){
-            return $value * self::LBS_TO_G;
-        }
-        return $value;
-    }
+    return $value;
+}
     public function toMeters(float $value, string $unit) : float
     {
-        if ($unit == "yards"){
+        if ($unit === "yards"){ // <-- CORREÇÃO
             return $value * self::YARDS_TO_M;
         }
         return $value;

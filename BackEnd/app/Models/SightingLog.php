@@ -21,10 +21,10 @@ class SightingLog extends Model
         "raw_data_payload" => 'array',
         'sighted_at' => 'datetime'
     ];
-    public function DuckSight():BelongsTo{
+    public function primordialDuck():BelongsTo{
         return $this->belongsTo(PrimordialDuck::class, 'primordial_duck_id', 'id');
     }
-    public function DroneSight():BelongsTo{
+    public function surveyDrone():BelongsTo{
         return $this->belongsTo(SurveyDrone::class, 'survey_drone_id', 'id');
     }
 }

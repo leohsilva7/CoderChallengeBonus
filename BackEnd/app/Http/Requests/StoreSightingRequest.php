@@ -33,14 +33,15 @@ class StoreSightingRequest extends FormRequest
             'longitude' => 'required|numeric',
             'gps_precision' =>'required|numeric',
             'gps_precision_unit' => 'required|in:m,yards',
-            'city_name' => 'nullable|string',
-            'country_name' => 'nullable|string',
+            'last_known_city' => 'nullable|string',
+            'last_known_country' => 'nullable|string',
             'hibernation_status' => ['required', Rule::in(['desperto', 'em_transe', 'hibernacao_profunda'])],
             'heart_rate_bpm' => 'nullable|required_if:hibernation_status,em_transe,hibernacao_profunda',
             'mutation_count' => 'required|integer',
             'superpower_name' => 'nullable|required_if:hibernation_status,desperto',
             'superpower_description' => 'nullable|required_if:hibernation_status,desperto',
-            'superpower_classifications' =>'nullable|array|required_if:hibernation_status,desperto'
+            'superpower_classifications' => 'nullable|required_if:hibernation_status,desperto',
+            'reference_point' => 'nullable|string|max:255',
         ];
     }
 }

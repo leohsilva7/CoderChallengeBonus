@@ -1,1193 +1,913 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Patos Primordiais</title>
+    <!-- 1. Importa o Vue.js via CDN -->
     <script src="https://unpkg.com/vue@3"></script>
-
+    
+    <!-- 2. Nosso CSS para um layout limpo -->
     <style>
-      :root {
-        --cor-primaria: #42b883;
-        --cor-secundaria: #35495e;
-        --cor-fundo: #f4f4f4;
-        --cor-borda: #ddd;
-        --cor-sombra: rgba(0, 0, 0, 0.1);
-        --cor-perigo: #e74c3c;
-        --cor-sucesso: #2ecc71;
-        --cor-aviso: #f39c12;
-      }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
-        background-color: var(--cor-fundo);
-        color: var(--cor-secundaria);
-        margin: 0;
-        line-height: 1.6;
-      }
-      #app {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem;
-      }
-      header {
-        background: #fff;
-        padding: 1rem 2rem;
-        border-bottom: 2px solid var(--cor-primaria);
-        margin-bottom: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px var(--cor-sombra);
-      }
-      header h1 {
-        color: var(--cor-secundaria);
-        margin: 0;
-        text-align: center;
-      }
-      nav {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 1rem;
-      }
-      nav button {
-        background: var(--cor-primaria);
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.2s;
-      }
-      nav button:hover,
-      nav button.active {
-        background: var(--cor-secundaria);
-      }
-      main {
-        background: #fff;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px var(--cor-sombra);
-      }
-      section {
-        display: none; /* O Vue vai controlar isso */
-      }
-      section.active {
-        display: block;
-      }
-      h2 {
-        border-bottom: 2px solid var(--cor-fundo);
-        padding-bottom: 10px;
-        color: var(--cor-primaria);
-      }
-      /* Estilos de Tabela */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1.5rem;
-      }
-      th,
-      td {
-        border: 1px solid var(--cor-borda);
-        padding: 12px;
-        text-align: left;
-      }
-      th {
-        background-color: #f9f9f9;
-      }
-      tr:nth-child(even) {
-        background-color: var(--cor-fundo);
-      }
-      /* Estilos de Formulário */
-      .form-container,
-      .form-grid {
-        display: grid;
-        gap: 1.5rem;
-      }
-      .form-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-      }
-      .form-group label {
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid var(--cor-borda);
-        border-radius: 5px;
-        box-sizing: border-box; /* Importante para o padding não quebrar o layout */
-      }
-      /* Botões */
-      .btn {
-        background: var(--cor-primaria);
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.2s;
-        margin-right: 5px;
-      }
-      .btn-perigo {
-        background: var(--cor-perigo);
-      }
-      .btn-aviso {
-        background: var(--cor-aviso);
-      }
-      .btn-secundario {
-        background: #7f8c8d;
-      }
-      .btn:hover {
-        opacity: 0.8;
-      }
-      .btn-submit {
-        grid-column: 1 / -1; /* Ocupa a linha inteira no grid */
-        padding: 15px;
-        font-size: 1.1rem;
-      }
-      /* Modal */
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
-      .modal-content {
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 600px;
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-      /* Estados */
-      .loading,
-      .error {
-        text-align: center;
-        padding: 2rem;
-        font-size: 1.2rem;
-        font-weight: bold;
-      }
-      .error {
-        color: var(--cor-perigo);
-      }
-      .loading {
-        color: var(--cor-primaria);
-      }
+        :root {
+            --cor-primaria: #42b883;
+            --cor-secundaria: #35495e;
+            --cor-fundo: #f4f4f4;
+            --cor-borda: #ddd;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-perigo: #e74c3c;
+            --cor-sucesso: #2ecc71;
+            --cor-aviso: #f39c12;
+            --cor-info: #3498db;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-secundaria);
+            margin: 0;
+            line-height: 1.6;
+        }
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--cor-primaria);
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--cor-sombra);
+        }
+        header h1 {
+            color: var(--cor-secundaria);
+            margin: 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        nav button {
+            background: var(--cor-primaria);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        nav button:hover, nav button.active {
+            background: var(--cor-secundaria);
+        }
+        main {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--cor-sombra);
+        }
+        section {
+            display: none; /* O Vue vai controlar isso */
+        }
+        section.active {
+            display: block;
+        }
+        h2 {
+            border-bottom: 2px solid var(--cor-fundo);
+            padding-bottom: 10px;
+            color: var(--cor-primaria);
+        }
+        /* Estilos de Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        th, td {
+            border: 1px solid var(--cor-borda);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(even) {
+            background-color: var(--cor-fundo);
+        }
+        /* Estilos de Formulário */
+        .form-container, .form-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .form-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 5px;
+            box-sizing: border-box; /* Importante para o padding não quebrar o layout */
+        }
+        /* Botões */
+        .btn {
+            background: var(--cor-primaria);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin-right: 5px;
+        }
+        .btn-perigo { background: var(--cor-perigo); }
+        .btn-aviso { background: var(--cor-aviso); }
+        .btn-secundario { background: #7f8c8d; }
+        .btn:hover { opacity: 0.8; }
+        .btn-submit {
+            grid-column: 1 / -1; /* Ocupa a linha inteira no grid */
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        /* Estados */
+        .loading, .error {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .error { color: var(--cor-perigo); }
+        .loading { color: var(--cor-primaria); }
 
-      /* Helpers */
-      .capitalize {
-        text-transform: capitalize;
-      }
-      .badge {
-        padding: 3px 8px;
-        border-radius: 12px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: white;
-      }
-      .badge-desperto {
-        background: var(--cor-perigo);
-      }
-      .badge-transe {
-        background: var(--cor-aviso);
-      }
-      .badge-hibernacao {
-        background: #3498db;
-      }
+        /* Helpers (Badges) */
+        .capitalize { text-transform: capitalize; }
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-desperto { background: var(--cor-perigo); }
+        .badge-em_transe { background: var(--cor-aviso); }
+        .badge-hibernacao_profunda { background: var(--cor-info); }
+        
+        .risk-minimo { color: var(--cor-info); }
+        .risk-baixo { color: var(--cor-sucesso); }
+        .risk-medio { color: var(--cor-aviso); }
+        .risk-alto { color: var(--cor-perigo); }
     </style>
-  </head>
-  <body>
+</head>
+<body>
+
+    <!-- 3. Nosso HTML (a "View") -->
     <div id="app">
-      <header>
-        <h1>Catálogo de Patos Primordiais</h1>
-        <nav>
-          <button
-            @click="changeView('logs')"
-            :class="{ active: currentView === 'logs' }"
-          >
-            Logs de Avistamentos
-          </button>
-          <button
-            @click="changeView('ingestion')"
-            :class="{ active: currentView === 'ingestion' }"
-          >
-            Novo Avistamento
-          </button>
-          <button
-            @click="changeView('ducks')"
-            :class="{ active: currentView === 'ducks' }"
-          >
-            Patos Catalogados
-          </button>
-          <button
-            @click="changeView('drones')"
-            :class="{ active: currentView === 'drones' }"
-          >
-            Gerenciar Drones
-          </button>
-          <button
-            @click="changeView('manufacturers')"
-            :class="{ active: currentView === 'manufacturers' }"
-          >
-            Gerenciar Fabricantes
-          </button>
-        </nav>
-      </header>
+        <header>
+            <h1>Catálogo de Patos Primordiais</h1>
+            <nav>
+                <button @click="changeView('logs')" :class="{ active: currentView === 'logs' }">Logs de Avistamentos</button>
+                <button @click="changeView('ingestion')" :class="{ active: currentView === 'ingestion' }">Novo Avistamento</button>
+                <button @click="changeView('ducks')" :class="{ active: currentView === 'ducks' }">Patos Catalogados</button>
+                <button @click="changeView('drones')" :class="{ active: currentView === 'drones' }">Gerenciar Drones</button>
+                <button @click="changeView('manufacturers')" :class="{ active: currentView === 'manufacturers' }">Gerenciar Fabricantes</button>
+            </nav>
+        </header>
 
-      <main>
-        <div v-if="loading" class="loading">Carregando dados da API...</div>
-        <div v-if="error" class="error">{{ error }}</div>
+        <main>
+            <div v-if="loading" class="loading">Carregando dados da API...</div>
+            <div v-if="error" class="error">{{ error }}</div>
 
-        <section :class="{ active: currentView === 'logs' }">
-          <h2>Logs de Avistamentos Recentes</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Drone (Serial)</th>
-                <th>Pato (Designação)</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="logs.length === 0">
-                <td colspan="3">Nenhum log encontrado.</td>
-              </tr>
-              <tr v-for="log in logs" :key="log.id">
-                <td>
-                  {{ log.drone_sight ? log.drone_sight.serial_number : 'N/A' }}
-                </td>
-                <td>
-                  {{ log.duck_sight ? log.duck_sight.designation : 'N/A' }}
-                </td>
-                <td>{{ new Date(log.sighted_at).toLocaleString('pt-BR') }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+            <!-- Seção: Logs de Avistamentos -->
+            <section :class="{ active: currentView === 'logs' }">
+                <h2>Logs de Avistamentos Recentes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Drone (Serial)</th>
+                            <th>Pato (Designação)</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="logs.length === 0">
+                            <td colspan="3">Nenhum log encontrado.</td>
+                        </tr>
+                        <!-- MUDANÇA (Missão 2): Lendo do Resource -->
+                        <tr v-for="log in logs" :key="log.log_id">
+                            <td>{{ log.drone ? log.drone.serial_number : 'N/A' }}</td>
+                            <td>{{ log.pato ? log.pato.designation : 'N/A' }}</td>
+                            <td>{{ new Date(log.sighted_at).toLocaleString('pt-BR') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
 
-        <section :class="{ active: currentView === 'ingestion' }">
-          <h2>Registrar Novo Avistamento</h2>
-          <form @submit.prevent="submitNewSighting" class="form-container">
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="drone_serial">Drone (Serial)</label>
-                <select
-                  id="drone_serial"
-                  v-model="newSightingForm.drone_serial_number"
-                  required
-                >
-                  <option disabled value="">Selecione um drone</option>
-                  <option
-                    v-for="drone in drones"
-                    :key="drone.id"
-                    :value="drone.serial_number"
-                  >
-                    {{ drone.brand }} - {{ drone.serial_number }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="duck_designation">Designação do Pato</label>
-                <input
-                  type="text"
-                  id="duck_designation"
-                  v-model="newSightingForm.designation"
-                  required
-                />
-              </div>
+            <!-- Seção: Novo Avistamento (Ingestão) -->
+            <section :class="{ active: currentView === 'ingestion' }">
+                <h2>Registrar Novo Avistamento</h2>
+                <form @submit.prevent="submitNewSighting" class="form-container">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="drone_serial">Drone (Serial)</label>
+                            <select id="drone_serial" v-model="newSightingForm.drone_serial_number" required>
+                                <option disabled value="">Selecione um drone</option>
+                                <option v-for="drone in drones" :key="drone.id" :value="drone.serial_number">
+                                    {{ drone.brand }} - {{ drone.serial_number }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="duck_designation">Designação do Pato</label>
+                            <input type="text" id="duck_designation" v-model="newSightingForm.designation" required>
+                        </div>
+                    </div>
+
+                    <h3>Medidas</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="height">Altura</label>
+                            <input type="number" id="height" v-model.number="newSightingForm.height" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="height_unit">Unidade (Altura)</label>
+                            <select id="height_unit" v-model="newSightingForm.height_unit" required>
+                                <option value="cm">cm</option>
+                                <option value="feet">pés (feet)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Peso</label>
+                            <input type="number" id="weight" v-model.number="newSightingForm.weight" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight_unit">Unidade (Peso)</label>
+                            <select id="weight_unit" v-model="newSightingForm.weight_unit" required>
+                                <option value="g">g</option>
+                                <option value="lbs">libras (lbs)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3>Localização</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" id="latitude" v-model="newSightingForm.latitude" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" id="longitude" v-model="newSightingForm.longitude" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gps_precision">Precisão GPS</label>
+                            <input type="number" id="gps_precision" v-model.number="newSightingForm.gps_precision" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gps_precision_unit">Unidade (Precisão)</label>
+                            <select id="gps_precision_unit" v-model="newSightingForm.gps_precision_unit" required>
+                                <option value="m">m</option>
+                                <option value="yards">jardas (yards)</option>
+                            </select>
+                        </div>
+                        <!-- MUDANÇA (Missão 2): Corrigindo bug de validação -->
+                        <div class="form-group">
+                            <label for="city">Cidade (Opcional)</label>
+                            <input type="text" id="city" v-model="newSightingForm.last_known_city">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">País (Opcional)</label>
+                            <input type="text" id="country" v-model="newSightingForm.last_known_country">
+                        </div>
+                        <div class="form-group">
+                            <label for="reference_point">Ponto de Referência (Opcional)</label>
+                            <input type="text" id="reference_point" v-model="newSightingForm.reference_point">
+                        </div>
+                    </div>
+
+                    <h3>Status e Mutações</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="hibernation_status">Status de Hibernação</label>
+                            <!-- MUDANÇA (Missão 2): Corrigindo valores -->
+                            <select id="hibernation_status" v-model="newSightingForm.hibernation_status" required>
+                                <option value="desperto">Desperto</option>
+                                <option value="em_transe">Em Transe</option>
+                                <option value="hibernacao_profunda">Hibernação Profunda</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" v-if="newSightingForm.hibernation_status !== 'desperto' && newSightingForm.hibernation_status !== ''">
+                            <label for="heart_rate">Batimentos Cardíacos (bpm)</label>
+                            <input type="number" id="heart_rate" v-model.number="newSightingForm.heart_rate_bpm">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mutation_count">Contagem de Mutações</label>
+                            <input type="number" id="mutation_count" v-model.number="newSightingForm.mutation_count" required>
+                        </div>
+                    </div>
+
+                    <div v-if="newSightingForm.hibernation_status === 'desperto'">
+                        <h3>Superpoder (Pato Desperto)</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="superpower_name">Nome do Superpoder</label>
+                                <input type="text" id="superpower_name" v-model="newSightingForm.superpower_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="superpower_desc">Descrição</label>
+                                <textarea id="superpower_desc" v-model="newSightingForm.superpower_description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="superpower_class">Classificações (separadas por vírgula)</label>
+                                <input type="text" id="superpower_class" v-model="newSightingForm.superpower_classifications">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">Registrar Avistamento</button>
+                </form>
+            </section>
+
+            <!-- Seção: Patos Catalogados -->
+            <section :class="{ active: currentView === 'ducks' }">
+                <h2>Patos Primordiais Catalogados</h2>
+                <table>
+                    <thead>
+                        <!-- MUDANÇA (Missão 2): Novas Colunas -->
+                        <tr>
+                            <th>Designação</th>
+                            <th>Status</th>
+                            <th>Risco (Análise)</th>
+                            <th>Prioridade (Análise)</th>
+                            <th>Superpoder</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="ducks.length === 0">
+                            <td colspan="6">Nenhum pato encontrado.</td>
+                        </tr>
+                        <!-- MUDANÇA (Missão 2): Lendo novos dados -->
+                        <tr v-for="duck in ducks" :key="duck.designation">
+                            <td>{{ duck.designation }}</td>
+                            <td>
+                                <span :class="['badge', 'badge-' + duck.hibernation_status]">
+                                    {{ duck.hibernation_status.replace('_', ' ') }}
+                                </span>
+                            </td>
+                            <td :class="['capitalize', duck.analysis ? 'risk-' + duck.analysis.risk_level : '']">
+                                {{ duck.analysis ? duck.analysis.risk_level : 'N/A' }}
+                            </td>
+                            <td>{{ duck.analysis ? duck.analysis.capture_priority : 'N/A' }}</td>
+                            <td>{{ duck.superpower ? duck.superpower.name : 'Nenhum' }}</td>
+                            <td>
+                                <button class="btn btn-secundario" @click="showDuckDetails(duck)">Detalhes</button>
+                                <button class="btn" @click="fetchLogsForDuck(duck.designation)">Ver Logs</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Seção: Gerenciar Drones -->
+            <section :class="{ active: currentView === 'drones' }">
+                <h2>Gerenciar Drones</h2>
+                
+                <!-- Formulário de Novo Drone -->
+                <form @submit.prevent="submitNewDrone" class="form-grid">
+                    <div class="form-group">
+                        <label for="drone_serial_new">Número de Série</label>
+                        <input type="text" id="drone_serial_new" v-model="newDroneForm.serial_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="drone_brand">Marca</label>
+                        <input type="text" id="drone_brand" v-model="newDroneForm.brand" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="drone_manufacturer">Fabricante</label>
+                        <select id="drone_manufacturer" v-model="newDroneForm.manufacturer_id" required>
+                            <option value="" disabled>Selecione um fabricante</option>
+                            <option v-for="m in manufacturers" :key="m.id" :value="m.id">{{ m.name }}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-submit" style="grid-column: 1 / -1;">Adicionar Drone</button>
+                </form>
+
+                <!-- Tabela de Drones -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Serial</th>
+                            <th>Marca</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="drones.length === 0">
+                            <td colspan="3">Nenhum drone encontrado.</td>
+                        </tr>
+                        <tr v-for="drone in drones" :key="drone.id">
+                            <td>{{ drone.serial_number }}</td>
+                            <td>{{ drone.brand }}</td>
+                            <td>
+                                <button class="btn btn-aviso" @click="openEditDrone(drone)">Editar</button>
+                                <button class="btn btn-perigo" @click="deleteDrone(drone.id)">Excluir</button>
+                                <button class="btn" @click="fetchLogsForDrone(drone.serial_number)">Ver Logs</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Seção: Gerenciar Fabricantes -->
+            <section :class="{ active: currentView === 'manufacturers' }">
+                <h2>Gerenciar Fabricantes</h2>
+
+                <!-- Formulário de Novo Fabricante -->
+                <form @submit.prevent="submitNewManufacturer" class="form-grid">
+                    <div class="form-group">
+                        <label for="mf_name">Nome</label>
+                        <input type="text" id="mf_name" v-model="newManufacturerForm.name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mf_country">País de Origem</label>
+                        <input type="text" id="mf_country" v-model="newManufacturerForm.country_of_origin" required>
+                    </div>
+                    <button type="submit" class="btn btn-submit" style="grid-column: 1 / -1;">Adicionar Fabricante</button>
+                </form>
+
+                <!-- Tabela de Fabricantes -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>País</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="manufacturers.length === 0">
+                            <td colspan="3">Nenhum fabricante encontrado.</td>
+                        </tr>
+                        <tr v-for="m in manufacturers" :key="m.id">
+                            <td>{{ m.name }}</td>
+                            <td>{{ m.country_of_origin }}</td>
+                            <td>
+                                <button class="btn btn-aviso" @click="openEditManufacturer(m)">Editar</button>
+                                <button class="btn btn-perigo" @click="deleteManufacturer(m.id)">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+
+        <!-- Modais -->
+        
+        <!-- Modal: Editar Fabricante -->
+        <div v-if="editManufacturerData" class="modal-overlay" @click.self="closeModal">
+            <div class="modal-content">
+                <h3>Editar Fabricante</h3>
+                <form @submit.prevent="submitEditManufacturer" class="form-container">
+                    <div class="form-group">
+                        <label for="mf_edit_name">Nome</label>
+                        <input type="text" id="mf_edit_name" v-model="editManufacturerData.name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mf_edit_country">País de Origem</label>
+                        <input type="text" id="mf_edit_country" v-model="editManufacturerData.country_of_origin" required>
+                    </div>
+                    <button type="submit" class="btn">Salvar</button>
+                    <button type="button" class="btn btn-secundario" @click="closeModal">Cancelar</button>
+                </form>
             </div>
+        </div>
 
-            <h3>Medidas</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="height">Altura</label>
-                <input
-                  type="number"
-                  id="height"
-                  v-model.number="newSightingForm.height"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="height_unit">Unidade (Altura)</label>
-                <select
-                  id="height_unit"
-                  v-model="newSightingForm.height_unit"
-                  required
-                >
-                  <option value="cm">cm</option>
-                  <option value="feet">pés (feet)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="weight">Peso</label>
-                <input
-                  type="number"
-                  id="weight"
-                  v-model.number="newSightingForm.weight"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="weight_unit">Unidade (Peso)</label>
-                <select
-                  id="weight_unit"
-                  v-model="newSightingForm.weight_unit"
-                  required
-                >
-                  <option value="g">g</option>
-                  <option value="lbs">libras (lbs)</option>
-                </select>
-              </div>
+        <!-- Modal: Editar Drone -->
+        <div v-if="editDroneData" class="modal-overlay" @click.self="closeModal">
+            <div class="modal-content">
+                <h3>Editar Drone</h3>
+                <form @submit.prevent="submitEditDrone" class="form-container">
+                    <div class="form-group">
+                        <label for="drone_edit_serial">Número de Série</label>
+                        <input type="text" id="drone_edit_serial" v-model="editDroneData.serial_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="drone_edit_brand">Marca</label>
+                        <input type="text" id="drone_edit_brand" v-model="editDroneData.brand" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="drone_edit_manufacturer">Fabricante</label>
+                        <select id="drone_edit_manufacturer" v-model="editDroneData.manufacturer_id" required>
+                            <option v-for="m in manufacturers" :key="m.id" :value="m.id">{{ m.name }}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Salvar</button>
+                    <button type="button" class="btn btn-secundario" @click="closeModal">Cancelar</button>
+                </form>
             </div>
+        </div>
 
-            <h3>Localização</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="latitude">Latitude</label>
-                <input
-                  type="text"
-                  id="latitude"
-                  v-model="newSightingForm.latitude"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="longitude">Longitude</label>
-                <input
-                  type="text"
-                  id="longitude"
-                  v-model="newSightingForm.longitude"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="gps_precision">Precisão GPS</label>
-                <input
-                  type="number"
-                  id="gps_precision"
-                  v-model.number="newSightingForm.gps_precision"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="gps_precision_unit">Unidade (Precisão)</label>
-                <select
-                  id="gps_precision_unit"
-                  v-model="newSightingForm.gps_precision_unit"
-                  required
-                >
-                  <option value="m">m</option>
-                  <option value="yards">jardas (yards)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="city">Cidade</label>
-                <input
-                  type="text"
-                  id="city"
-                  v-model="newSightingForm.last_known_city"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="country">País</label>
-                <input
-                  type="text"
-                  id="country"
-                  v-model="newSightingForm.last_known_country"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="reference_point"
-                  >Ponto de Referência (Opcional)</label
-                >
-                <input
-                  type="text"
-                  id="reference_point"
-                  v-model="newSightingForm.reference_point"
-                />
-              </div>
+        <!-- Modal: Logs Filtrados -->
+        <div v-if="filteredLogs.length > 0" class="modal-overlay" @click.self="closeModal">
+            <div class="modal-content">
+                <h3>{{ filteredLogsTitle }}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID do Log</th>
+                            <th>Data</th>
+                            <th>Dados Brutos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="log in filteredLogs" :key="log.id">
+                            <td>{{ log.id }}</td>
+                            <td>{{ new Date(log.sighted_at).toLocaleString('pt-BR') }}</td>
+                            <td><pre>{{ JSON.stringify(log.raw_data_payload, null, 2) }}</pre></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secundario" @click="closeModal">Fechar</button>
             </div>
+        </div>
 
-            <h3>Status e Mutações</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="hibernation_status">Status de Hibernação</label>
-                <select
-                  id="hibernation_status"
-                  v-model="newSightingForm.hibernation_status"
-                  required
-                >
-                  <option value="desperto">Desperto</option>
-                  <option value="em_transe">Em Transe</option>
-                  <option value="hibernacao_profunda">
-                    Hibernação Profunda
-                  </option>
-                </select>
-              </div>
-
-              <div
-                class="form-group"
-                v-if="newSightingForm.hibernation_status !== 'desperto' && newSightingForm.hibernation_status !== ''"
-              >
-                <label for="heart_rate">Batimentos Cardíacos (bpm)</label>
-                <input
-                  type="number"
-                  id="heart_rate"
-                  v-model.number="newSightingForm.heart_rate_bpm"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="mutation_count">Contagem de Mutações</label>
-                <input
-                  type="number"
-                  id="mutation_count"
-                  v-model.number="newSightingForm.mutation_count"
-                  required
-                />
-              </div>
-            </div>
-
-            <div v-if="newSightingForm.hibernation_status === 'desperto'">
-              <h3>Superpoder (Pato Desperto)</h3>
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="superpower_name">Nome do Superpoder</label>
-                  <input
-                    type="text"
-                    id="superpower_name"
-                    v-model="newSightingForm.superpower_name"
-                  />
+        <!-- Modal: Detalhes do Pato -->
+        <div v-if="selectedDuck" class="modal-overlay" @click.self="closeModal">
+            <div class="modal-content">
+                <h3>Detalhes de: {{ selectedDuck.designation }}</h3>
+                
+                <h4>Dados Coletados (Missão 1)</h4>
+                <ul>
+                    <!-- MUDANÇA (Missão 2): Lendo do objeto 'last_known_location' -->
+                    <li><strong>Local:</strong> {{ selectedDuck.last_known_location.city || 'N/A' }}, {{ selectedDuck.last_known_location.country || 'N/A' }}</li>
+                    <li><strong>Coordenadas:</strong> {{ selectedDuck.last_known_location.latitude }}, {{ selectedDuck.last_known_location.longitude }}</li>
+                    <li><strong>Altura:</strong> {{ parseFloat(selectedDuck.height_cm).toFixed(2) }} cm</li>
+                    <li><strong>Peso:</strong> {{ parseFloat(selectedDuck.weight_g).toFixed(2) }} g</li>
+                    <li><strong>Mutações:</strong> {{ selectedDuck.mutation_count }}</li>
+                </ul>
+                <div v-if="selectedDuck.superpower">
+                    <h4>Superpoder: {{ selectedDuck.superpower.name }}</h4>
+                    <p><strong>Descrição:</strong> {{ selectedDuck.superpower.description }}</p>
+                    <p><strong>Classificação:</strong> {{ selectedDuck.superpower.classifications.join(', ') }}</p>
                 </div>
-                <div class="form-group">
-                  <label for="superpower_desc">Descrição</label>
-                  <textarea
-                    id="superpower_desc"
-                    v-model="newSightingForm.superpower_description"
-                  ></textarea>
+
+                <!-- MUDANÇA (Missão 2): Seção de Análise -->
+                <div v-if="selectedDuck.analysis">
+                    <h4 style="color: var(--cor-primaria)">Análise Estratégica (Missão 2)</h4>
+                    <ul>
+                        <li><strong>Nível de Risco:</strong> <span :class="['capitalize', 'risk-' + selectedDuck.analysis.risk_level]">{{ selectedDuck.analysis.risk_level }}</span></li>
+                        <li><strong>Prioridade de Captura:</strong> {{ selectedDuck.analysis.capture_priority }}</li>
+                        <li><strong>Valor Científico:</strong> {{ selectedDuck.analysis.scientific_value }}</li>
+                        <li><strong>Custo Operacional (Est.):</strong> {{ selectedDuck.analysis.operational_cost }}</li>
+                        <li><strong>Poder Militar (Est.):</strong> <span class="capitalize">{{ selectedDuck.analysis.military_power_needed }}</span></li>
+                        <li><strong>Notas da Análise:</strong> {{ selectedDuck.analysis.analysis_notes }}</li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                  <label for="superpower_class"
-                    >Classificações (separadas por vírgula)</label
-                  >
-                  <input
-                    type="text"
-                    id="superpower_class"
-                    v-model="newSightingForm.superpower_classifications"
-                  />
+                <div v-else>
+                    <h4 style="color: var(--cor-aviso)">Análise Estratégica Pendente</h4>
+                    <p>Os dados deste pato ainda não foram analisados (ou foram cadastrados antes da Missão 2). Atualize o avistamento para gerar a análise.</p>
                 </div>
-              </div>
+
+                <button type="button" class="btn btn-secundario" @click="closeModal">Fechar</button>
             </div>
-
-            <button type="submit" class="btn btn-submit">
-              Registrar Avistamento
-            </button>
-          </form>
-        </section>
-
-        <section :class="{ active: currentView === 'ducks' }">
-          <h2>Patos Primordiais Catalogados</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Designação</th>
-                <th>Status</th>
-                <th>Altura</th>
-                <th>Peso</th>
-                <th>Superpoder</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="ducks.length === 0">
-                <td colspan="6">Nenhum pato encontrado.</td>
-              </tr>
-              <tr v-for="duck in ducks" :key="duck.id">
-                <td>{{ duck.designation }}</td>
-                <td>
-                  <span
-                    :class="['badge', 'badge-' + duck.hibernation_status.split(' ')[0]]"
-                  >
-                    {{ duck.hibernation_status }}
-                  </span>
-                </td>
-                <td>{{ parseFloat(duck.height_cm).toFixed(2) }} cm</td>
-                <td>{{ parseFloat(duck.weight_g).toFixed(2) }} g</td>
-                <td>{{ duck.superpower ? duck.superpower.name : 'Nenhum' }}</td>
-                <td>
-                  <button
-                    class="btn btn-secundario"
-                    @click="showDuckDetails(duck)"
-                  >
-                    Detalhes
-                  </button>
-                  <button
-                    class="btn"
-                    @click="fetchLogsForDuck(duck.designation)"
-                  >
-                    Ver Logs
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section :class="{ active: currentView === 'drones' }">
-          <h2>Gerenciar Drones</h2>
-
-          <form @submit.prevent="submitNewDrone" class="form-grid">
-            <div class="form-group">
-              <label for="drone_serial_new">Número de Série</label>
-              <input
-                type="text"
-                id="drone_serial_new"
-                v-model="newDroneForm.serial_number"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="drone_brand">Marca</label>
-              <input
-                type="text"
-                id="drone_brand"
-                v-model="newDroneForm.brand"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="drone_manufacturer">Fabricante</label>
-              <select
-                id="drone_manufacturer"
-                v-model="newDroneForm.manufacturer_id"
-                required
-              >
-                <option value="" disabled>Selecione um fabricante</option>
-                <option v-for="m in manufacturers" :key="m.id" :value="m.id">
-                  {{ m.name }}
-                </option>
-              </select>
-            </div>
-            <button
-              type="submit"
-              class="btn btn-submit"
-              style="grid-column: 1 / -1"
-            >
-              Adicionar Drone
-            </button>
-          </form>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Serial</th>
-                <th>Marca</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="drones.length === 0">
-                <td colspan="3">Nenhum drone encontrado.</td>
-              </tr>
-              <tr v-for="drone in drones" :key="drone.id">
-                <td>{{ drone.serial_number }}</td>
-                <td>{{ drone.brand }}</td>
-                <td>
-                  <button class="btn btn-aviso" @click="openEditDrone(drone)">
-                    Editar
-                  </button>
-                  <button class="btn btn-perigo" @click="deleteDrone(drone.id)">
-                    Excluir
-                  </button>
-                  <button
-                    class="btn"
-                    @click="fetchLogsForDrone(drone.serial_number)"
-                  >
-                    Ver Logs
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section :class="{ active: currentView === 'manufacturers' }">
-          <h2>Gerenciar Fabricantes</h2>
-
-          <form @submit.prevent="submitNewManufacturer" class="form-grid">
-            <div class="form-group">
-              <label for="mf_name">Nome</label>
-              <input
-                type="text"
-                id="mf_name"
-                v-model="newManufacturerForm.name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="mf_country">País de Origem</label>
-              <input
-                type="text"
-                id="mf_country"
-                v-model="newManufacturerForm.country_of_origin"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              class="btn btn-submit"
-              style="grid-column: 1 / -1"
-            >
-              Adicionar Fabricante
-            </button>
-          </form>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>País</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="manufacturers.length === 0">
-                <td colspan="3">Nenhum fabricante encontrado.</td>
-              </tr>
-              <tr v-for="m in manufacturers" :key="m.id">
-                <td>{{ m.name }}</td>
-                <td>{{ m.country_of_origin }}</td>
-                <td>
-                  <button
-                    class="btn btn-aviso"
-                    @click="openEditManufacturer(m)"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    class="btn btn-perigo"
-                    @click="deleteManufacturer(m.id)"
-                  >
-                    Excluir
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-      </main>
-
-      <div
-        v-if="editManufacturerData"
-        class="modal-overlay"
-        @click.self="closeModal"
-      >
-        <div class="modal-content">
-          <h3>Editar Fabricante</h3>
-          <form @submit.prevent="submitEditManufacturer" class="form-container">
-            <div class="form-group">
-              <label for="mf_edit_name">Nome</label>
-              <input
-                type="text"
-                id="mf_edit_name"
-                v-model="editManufacturerData.name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="mf_edit_country">País de Origem</label>
-              <input
-                type="text"
-                id="mf_edit_country"
-                v-model="editManufacturerData.country_of_origin"
-                required
-              />
-            </div>
-            <button type="submit" class="btn">Salvar</button>
-            <button
-              type="button"
-              class="btn btn-secundario"
-              @click="closeModal"
-            >
-              Cancelar
-            </button>
-          </form>
         </div>
-      </div>
 
-      <div v-if="editDroneData" class="modal-overlay" @click.self="closeModal">
-        <div class="modal-content">
-          <h3>Editar Drone</h3>
-          <form @submit.prevent="submitEditDrone" class="form-container">
-            <div class="form-group">
-              <label for="drone_edit_serial">Número de Série</label>
-              <input
-                type="text"
-                id="drone_edit_serial"
-                v-model="editDroneData.serial_number"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="drone_edit_brand">Marca</label>
-              <input
-                type="text"
-                id="drone_edit_brand"
-                v-model="editDroneData.brand"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="drone_edit_manufacturer">Fabricante</label>
-              <select
-                id="drone_edit_manufacturer"
-                v-model="editDroneData.manufacturer_id"
-                required
-              >
-                <option v-for="m in manufacturers" :key="m.id" :value="m.id">
-                  {{ m.name }}
-                </option>
-              </select>
-            </div>
-            <button type="submit" class="btn">Salvar</button>
-            <button
-              type="button"
-              class="btn btn-secundario"
-              @click="closeModal"
-            >
-              Cancelar
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <div
-        v-if="filteredLogs.length > 0"
-        class="modal-overlay"
-        @click.self="closeModal"
-      >
-        <div class="modal-content">
-          <h3>{{ filteredLogsTitle }}</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>ID do Log</th>
-                <th>Data</th>
-                <th>Dados Brutos</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="log in filteredLogs" :key="log.id">
-                <td>{{ log.id }}</td>
-                <td>{{ new Date(log.sighted_at).toLocaleString('pt-BR') }}</td>
-                <td>
-                  <pre>{{ JSON.stringify(log.raw_data_payload, null, 2) }}</pre>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button type="button" class="btn btn-secundario" @click="closeModal">
-            Fechar
-          </button>
-        </div>
-      </div>
-
-      <div v-if="selectedDuck" class="modal-overlay" @click.self="closeModal">
-        <div class="modal-content">
-          <h3>Detalhes de: {{ selectedDuck.designation }}</h3>
-          <ul>
-            <li><strong>Cidade:</strong> {{ selectedDuck.last_known_city }}</li>
-            <li>
-              <strong>País:</strong> {{ selectedDuck.last_known_country }}
-            </li>
-            <li>
-              <strong>Coordenadas:</strong> {{ selectedDuck.last_known_lat }},
-              {{ selectedDuck.last_known_lon }}
-            </li>
-            <li>
-              <strong>Precisão GPS:</strong> {{
-              parseFloat(selectedDuck.gps_precision_m).toFixed(2) }} m
-            </li>
-            <li>
-              <strong>Ponto de Referência:</strong> {{
-              selectedDuck.reference_point || 'N/A' }}
-            </li>
-            <li>
-              <strong>Batimentos:</strong> {{ selectedDuck.heart_rate_bpm ||
-              'N/A' }} bpm
-            </li>
-            <li>
-              <strong>Mutações:</strong> {{ selectedDuck.mutation_count }}
-            </li>
-          </ul>
-          <div v-if="selectedDuck.superpower">
-            <h4>Superpoder: {{ selectedDuck.superpower.name }}</h4>
-            <p>
-              <strong>Descrição:</strong> {{ selectedDuck.superpower.description
-              }}
-            </p>
-            <p>
-              <strong>Classificação:</strong> {{
-              selectedDuck.superpower.classifications.join(', ') }}
-            </p>
-          </div>
-          <button type="button" class="btn btn-secundario" @click="closeModal">
-            Fechar
-          </button>
-        </div>
-      </div>
     </div>
 
+    <!-- 4. Nosso JavaScript (Vue.js) -->
     <script>
-      const { createApp } = Vue;
+        const { createApp } = Vue;
 
-      const app = createApp({
-        // ---------------------------------------------------------------------
-        // DADOS (STATE)
-        // ---------------------------------------------------------------------
-        data() {
-          return {
-            // !!! MUDE AQUI SE NECESSÁRIO !!!
-            apiBaseUrl: "http://localhost:8000/api", // Sem barra no final
+        // Monta a aplicação Vue no elemento #app
+        const app = createApp({
+            // ---------------------------------------------------------------------
+            // DADOS (STATE)
+            // ---------------------------------------------------------------------
+            data() {
+                return {
+                    // !!! MUDE AQUI SE NECESSÁRIO !!!
+                    apiBaseUrl: 'http://localhost:8000/api', // Sem barra no final
+                    
+                    // Controle da UI
+                    currentView: 'logs',
+                    loading: true,
+                    error: null,
+                    
+                    // Listas de Dados
+                    logs: [],
+                    ducks: [],
+                    drones: [],
+                    manufacturers: [],
 
-            // Controle da UI
-            currentView: "logs",
-            loading: true,
-            error: null,
+                    // Modais e Filtros
+                    editManufacturerData: null, // Objeto para o formulário de edição
+                    editDroneData: null,
+                    selectedDuck: null,
+                    filteredLogs: [],
+                    filteredLogsTitle: '',
 
-            // Listas de Dados
-            logs: [],
-            ducks: [],
-            drones: [],
-            manufacturers: [],
-
-            // Modais e Filtros
-            editManufacturerData: null, // Objeto para o formulário de edição
-            editDroneData: null,
-            selectedDuck: null,
-            filteredLogs: [],
-            filteredLogsTitle: "",
-
-            // Formulários
-            newManufacturerForm: {
-              name: "",
-              country_of_origin: "",
-            },
-            newDroneForm: {
-              serial_number: "",
-              brand: "",
-              manufacturer_id: "",
-            },
-            newSightingForm: this.getEmptySightingForm(),
-          };
-        },
-
-        // ---------------------------------------------------------------------
-        // MÉTODOS (ACTIONS)
-        // ---------------------------------------------------------------------
-        methods: {
-          // --- Controle da UI ---
-          changeView(view) {
-            this.currentView = view;
-            this.error = null; // Limpa erros ao trocar de aba
-          },
-          closeModal() {
-            this.editManufacturerData = null;
-            this.editDroneData = null;
-            this.selectedDuck = null;
-            this.filteredLogs = [];
-            this.filteredLogsTitle = "";
-          },
-          resetForms() {
-            this.newManufacturerForm = { name: "", country_of_origin: "" };
-            this.newDroneForm = {
-              serial_number: "",
-              brand: "",
-              manufacturer_id: "",
-            };
-            this.newSightingForm = this.getEmptySightingForm();
-          },
-          getEmptySightingForm() {
-            // Helper para resetar o formulário complexo
-            return {
-              drone_serial_number: "",
-              designation: "",
-              height: "",
-              height_unit: "cm",
-              weight: "",
-              weight_unit: "g",
-              latitude: "",
-              longitude: "",
-              gps_precision: "",
-              gps_precision_unit: "m",
-              last_known_city: "",
-              last_known_country: "",
-              reference_point: "",
-              hibernation_status: "desperto",
-              heart_rate_bpm: null,
-              mutation_count: "",
-              superpower_name: "",
-              superpower_description: "",
-              superpower_classifications: "",
-            };
-          },
-          // --- Requisições (Fetch) ---
-          async apiRequest(endpoint, method = "GET", body = null) {
-            this.loading = true;
-            this.error = null;
-            try {
-              const options = {
-                method,
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                },
-              };
-              if (body) {
-                options.body = JSON.stringify(body);
-              }
-
-              const response = await fetch(
-                `${this.apiBaseUrl}${endpoint}`,
-                options
-              );
-
-              if (!response.ok) {
-                const errorData = await response.json();
-                let errorMsg = `Erro ${response.status}: ${
-                  errorData.message || response.statusText
-                }`;
-                if (errorData.errors) {
-                  // Adiciona erros de validação
-                  errorMsg +=
-                    " " + Object.values(errorData.errors).flat().join(" ");
+                    // Formulários
+                    newManufacturerForm: {
+                        name: '',
+                        country_of_origin: ''
+                    },
+                    newDroneForm: {
+                        serial_number: '',
+                        brand: '',
+                        manufacturer_id: ''
+                    },
+                    newSightingForm: this.getEmptySightingForm()
                 }
-                throw new Error(errorMsg);
-              }
+            },
 
-              // Requisições DELETE ou 204 podem não ter corpo
-              if (response.status === 204 || response.status === 202) {
-                return true;
-              }
-              return await response.json();
-            } catch (err) {
-              this.error = err.message;
-              console.error(err);
-            } finally {
-              this.loading = false;
-            }
-          },
+            // ---------------------------------------------------------------------
+            // MÉTODOS (ACTIONS)
+            // ---------------------------------------------------------------------
+            methods: {
+                // --- Controle da UI ---
+                changeView(view) {
+                    this.currentView = view;
+                    this.error = null; // Limpa erros ao trocar de aba
+                },
+                closeModal() {
+                    this.editManufacturerData = null;
+                    this.editDroneData = null;
+                    this.selectedDuck = null;
+                    this.filteredLogs = [];
+                    this.filteredLogsTitle = '';
+                },
+                resetForms() {
+                    this.newManufacturerForm = { name: '', country_of_origin: '' };
+                    this.newDroneForm = { serial_number: '', brand: '', manufacturer_id: '' };
+                    this.newSightingForm = this.getEmptySightingForm();
+                },
+                getEmptySightingForm() {
+                    // Helper para resetar o formulário complexo
+                    return {
+                        drone_serial_number: '',
+                        designation: '',
+                        height: '',
+                        height_unit: 'cm',
+                        weight: '',
+                        weight_unit: 'g',
+                        latitude: '',
+                        longitude: '',
+                        gps_precision: '',
+                        gps_precision_unit: 'm',
+                        last_known_city: '',
+                        last_known_country: '',
+                        reference_point: '',
+                        hibernation_status: 'desperto', // MUDANÇA (Missão 2): Corrigido valor
+                        heart_rate_bpm: null,
+                        mutation_count: '',
+                        superpower_name: '',
+                        superpower_description: '',
+                        superpower_classifications: ''
+                    };
+                },
+                // --- Requisições (Fetch) ---
+                async apiRequest(endpoint, method = 'GET', body = null) {
+                    this.loading = true;
+                    this.error = null;
+                    try {
+                        const options = {
+                            method,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        };
+                        if (body) {
+                            options.body = JSON.stringify(body);
+                        }
+                        
+                        const response = await fetch(`${this.apiBaseUrl}${endpoint}`, options);
 
-          // --- Métodos de Busca (GET) ---
-          async fetchAllData() {
-            // Carrega todos os dados essenciais de uma vez
-            await Promise.all([
-              this.fetchLogs(),
-              this.fetchDucks(),
-              this.fetchDrones(),
-              this.fetchManufacturers(),
-            ]);
-          },
-          async fetchLogs() {
-            const data = await this.apiRequest("/sighting-logs");
-            if (data) {
-              this.logs = data; // API retorna um array direto
-            }
-          },
-          async fetchDucks() {
-            const data = await this.apiRequest("/primordial-ducks");
-            if (data) {
-              this.ducks = data.data; // É um Recurso Paginado, dados estão em 'data'
-            }
-          },
-          async fetchDrones() {
-            const data = await this.apiRequest("/survey-drones");
-            if (data) {
-              this.drones = data.DronesPesquisa; // API retorna em 'DronesPesquisa'
-            }
-          },
-          async fetchManufacturers() {
-            const data = await this.apiRequest("/manufacturer");
-            if (data) {
-              this.manufacturers = data.fabricantes; // API retorna em 'fabricantes'
-            }
-          },
-          async fetchLogsForDuck(designation) {
-            const data = await this.apiRequest(
-              `/primordial-ducks/${designation}/logs`
-            );
-            if (data && data.PatoPrimordial) {
-              this.filteredLogs = data.PatoPrimordial.duck_sighting_log;
-              this.filteredLogsTitle = `Logs para o Pato: ${designation}`;
-            }
-          },
-          async fetchLogsForDrone(serialNumber) {
-            const data = await this.apiRequest(
-              `/survey-drones/${serialNumber}/logs`
-            );
-            if (data && data.LogsAvistamento) {
-              this.filteredLogs = data.LogsAvistamento;
-              this.filteredLogsTitle = `Logs do Drone: ${serialNumber}`;
-            }
-          },
-          async showDuckDetails(duck) {
-            // Re-busca os dados completos do pato (consome a rota GET /primordial-ducks/{designation})
-            const data = await this.apiRequest(
-              `/primordial-ducks/${duck.designation}`
-            );
-            if (data) {
-              this.selectedDuck = data.data; // É um Recurso, dados estão em 'data'
-            }
-          },
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            let errorMsg = `Erro ${response.status}: ${errorData.message || response.statusText}`;
+                            if(errorData.errors) {
+                                // Adiciona erros de validação
+                                errorMsg += " " + Object.values(errorData.errors).flat().join(' ');
+                            }
+                            throw new Error(errorMsg);
+                        }
+                        
+                        // Requisições DELETE ou 204 podem não ter corpo
+                        if (response.status === 204 || response.status === 202) {
+                            return true;
+                        }
+                        return await response.json();
+                        
+                    } catch (err) {
+                        this.error = err.message;
+                        console.error(err);
+                    } finally {
+                        this.loading = false;
+                    }
+                },
 
-          // --- Fabricantes (CRUD) ---
-          async submitNewManufacturer() {
-            const data = await this.apiRequest(
-              "/manufacturer",
-              "POST",
-              this.newManufacturerForm
-            );
-            if (data) {
-              alert("Fabricante criado com sucesso!");
-              this.resetForms();
-              await this.fetchManufacturers(); // Atualiza a lista
-            }
-          },
-          openEditManufacturer(manufacturer) {
-            // Clona o objeto para evitar reatividade indesejada
-            this.editManufacturerData = { ...manufacturer };
-          },
-          async submitEditManufacturer() {
-            const data = await this.apiRequest(
-              `/manufacturer/${this.editManufacturerData.id}`,
-              "PUT",
-              this.editManufacturerData
-            );
-            if (data) {
-              alert("Fabricante atualizado com sucesso!");
-              this.closeModal();
-              await this.fetchManufacturers();
-            }
-          },
-          async deleteManufacturer(id) {
-            if (confirm("Tem certeza que deseja excluir este fabricante?")) {
-              const success = await this.apiRequest(
-                `/manufacturer/${id}`,
-                "DELETE"
-              );
-              if (success) {
-                alert("Fabricante excluído com sucesso!");
-                await this.fetchManufacturers();
-                await this.fetchDrones(); // Drones podem depender disso
-              }
-            }
-          },
+                // --- Métodos de Busca (GET) ---
+                async fetchAllData() {
+                    // Carrega todos os dados essenciais de uma vez
+                    await Promise.all([
+                        this.fetchLogs(),
+                        this.fetchDucks(),
+                        this.fetchDrones(),
+                        this.fetchManufacturers()
+                    ]);
+                },
+                async fetchLogs() {
+                    const data = await this.apiRequest('/sighting-logs');
+                    if (data) {
+                        // MUDANÇA (Missão 2): Lendo do Resource
+                        this.logs = data.data; 
+                    }
+                },
+                async fetchDucks() {
+                    const data = await this.apiRequest('/primordial-ducks');
+                    if (data) {
+                        this.ducks = data.data; // É um Recurso Paginado, dados estão em 'data'
+                    }
+                },
+                async fetchDrones() {
+                    const data = await this.apiRequest('/survey-drones');
+                    if (data) {
+                        this.drones = data.DronesPesquisa; // API retorna em 'DronesPesquisa'
+                    }
+                },
+                async fetchManufacturers() {
+                    const data = await this.apiRequest('/manufacturer');
+                    if (data) {
+                        this.manufacturers = data.fabricantes; // API retorna em 'fabricantes'
+                    }
+                },
+                async fetchLogsForDuck(designation) {
+                    const data = await this.apiRequest(`/primordial-ducks/${designation}/logs`);
+                    if (data && data.PatoPrimordial) {
+                        this.filteredLogs = data.PatoPrimordial.duck_sighting_log;
+                        this.filteredLogsTitle = `Logs para o Pato: ${designation}`;
+                    }
+                },
+                async fetchLogsForDrone(serialNumber) {
+                    const data = await this.apiRequest(`/survey-drones/${serialNumber}/logs`);
+                    if (data && data.LogsAvistamento) {
+                        this.filteredLogs = data.LogsAvistamento;
+                        this.filteredLogsTitle = `Logs do Drone: ${serialNumber}`;
+                    }
+                },
+                async showDuckDetails(duck) {
+                    // Re-busca os dados completos do pato (consome a rota GET /primordial-ducks/{designation})
+                    const data = await this.apiRequest(`/primordial-ducks/${duck.designation}`);
+                    if (data) {
+                        this.selectedDuck = data.data; // É um Recurso, dados estão em 'data'
+                    }
+                },
 
-          // --- Drones (CRUD) ---
-          async submitNewDrone() {
-            const data = await this.apiRequest(
-              "/survey-drones",
-              "POST",
-              this.newDroneForm
-            );
-            if (data) {
-              alert("Drone criado com sucesso!");
-              this.resetForms();
-              await this.fetchDrones(); // Atualiza a lista
-            }
-          },
-          openEditDrone(drone) {
-            this.editDroneData = { ...drone };
-          },
-          async submitEditDrone() {
-            const data = await this.apiRequest(
-              `/survey-drones/${this.editDroneData.id}`,
-              "PUT",
-              this.editDroneData
-            );
-            if (data) {
-              alert("Drone atualizado com sucesso!");
-              this.closeModal();
-              await this.fetchDrones();
-            }
-          },
-          async deleteDrone(id) {
-            if (confirm("Tem certeza que deseja excluir este drone?")) {
-              const success = await this.apiRequest(
-                `/survey-drones/${id}`,
-                "DELETE"
-              );
-              if (success) {
-                alert("Drone excluído com sucesso!");
-                await this.fetchDrones();
-              }
-            }
-          },
+                // --- Fabricantes (CRUD) ---
+                async submitNewManufacturer() {
+                    const data = await this.apiRequest('/manufacturer', 'POST', this.newManufacturerForm);
+                    if (data) {
+                        alert('Fabricante criado com sucesso!');
+                        this.resetForms();
+                        await this.fetchManufacturers(); // Atualiza a lista
+                    }
+                },
+                openEditManufacturer(manufacturer) {
+                    // Clona o objeto para evitar reatividade indesejada
+                    this.editManufacturerData = { ...manufacturer };
+                },
+                async submitEditManufacturer() {
+                    const data = await this.apiRequest(`/manufacturer/${this.editManufacturerData.id}`, 'PUT', this.editManufacturerData);
+                    if (data) {
+                        alert('Fabricante atualizado com sucesso!');
+                        this.closeModal();
+                        await this.fetchManufacturers();
+                    }
+                },
+                async deleteManufacturer(id) {
+                    if (confirm('Tem certeza que deseja excluir este fabricante?')) {
+                        const success = await this.apiRequest(`/manufacturer/${id}`, 'DELETE');
+                        if (success) {
+                            alert('Fabricante excluído com sucesso!');
+                            await this.fetchManufacturers();
+                            await this.fetchDrones(); // Drones podem depender disso
+                        }
+                    }
+                },
 
-          // --- Ingestão (POST) ---
-          async submitNewSighting() {
-            // Prepara o payload, removendo valores nulos que a API pode não esperar
-            let payload = { ...this.newSightingForm };
+                // --- Drones (CRUD) ---
+                async submitNewDrone() {
+                    const data = await this.apiRequest('/survey-drones', 'POST', this.newDroneForm);
+                    if (data) {
+                        alert('Drone criado com sucesso!');
+                        this.resetForms();
+                        await this.fetchDrones(); // Atualiza a lista
+                    }
+                },
+                openEditDrone(drone) {
+                    this.editDroneData = { ...drone };
+                },
+                async submitEditDrone() {
+                    // MUDANÇA (Missão 2): Corrigindo a rota de Edição
+                    const data = await this.apiRequest(`/survey-drones/${this.editDroneData.id}`, 'PUT', this.editDroneData);
+                    if (data) {
+                        alert('Drone atualizado com sucesso!');
+                        this.closeModal();
+                        await this.fetchDrones();
+                    }
+                },
+                async deleteDrone(id) {
+                    if (confirm('Tem certeza que deseja excluir este drone?')) {
+                        // MUDANÇA (Missão 2): Corrigindo a rota de Delete
+                        const success = await this.apiRequest(`/survey-drones/${id}`, 'DELETE');
+                        if (success) {
+                            alert('Drone excluído com sucesso!');
+                            await this.fetchDrones();
+                        }
+                    }
+                },
 
-            if (payload.hibernation_status === "desperto") {
-              // Converte classificações em array
-              payload.superpower_classifications =
-                payload.superpower_classifications
-                  .split(",")
-                  .map((s) => s.trim());
-              delete payload.heart_rate_bpm;
-            } else {
-              delete payload.superpower_name;
-              delete payload.superpower_description;
-              delete payload.superpower_classifications;
+                // --- Ingestão (POST) ---
+                async submitNewSighting() {
+                    // Prepara o payload, removendo valores nulos que a API pode não esperar
+                    let payload = { ...this.newSightingForm };
+                    
+                    if(payload.hibernation_status === 'desperto') {
+                        // Converte classificações em array
+                        payload.superpower_classifications = payload.superpower_classifications.split(',').map(s => s.trim());
+                        delete payload.heart_rate_bpm;
+                    } else {
+                        delete payload.superpower_name;
+                        delete payload.superpower_description;
+                        delete payload.superpower_classifications;
+                    }
+
+                    const data = await this.apiRequest('/sightings', 'POST', payload);
+                    if (data) {
+                        alert(`Avistamento do Pato '${data.data.designation}' registrado com sucesso!`);
+                        this.resetForms();
+                        // Atualiza os dados relevantes
+                        await this.fetchLogs();
+                        await this.fetchDrones(); // Recarrega os drones (caso um novo tenha sido implícito)
+                        await this.fetchDucks(); // Recarrega os patos (para ver a nova análise)
+                        this.changeView('ducks'); // Muda para a aba de Patos para ver a análise
+                    }
+                }
+            },
+
+            // ---------------------------------------------------------------------
+            // CICLO DE VIDA (LIFECYCLE)
+            // ---------------------------------------------------------------------
+            async mounted() {
+                // Carrega os dados iniciais assim que o app for montado
+                await this.fetchAllData();
+                this.loading = false;
             }
+        });
+        
+        app.mount('#app');
 
-            const data = await this.apiRequest("/sightings", "POST", payload);
-            if (data) {
-              alert(
-                `Avistamento do Pato '${data.data.designation}' registrado com sucesso!`
-              );
-              this.resetForms();
-              // Atualiza os dados relevantes
-              await this.fetchLogs();
-              await this.fetchDucks();
-              this.changeView("logs"); // Muda para a aba de logs
-            }
-          },
-        },
-
-        // ---------------------------------------------------------------------
-        // CICLO DE VIDA (LIFECYCLE)
-        // ---------------------------------------------------------------------
-        async mounted() {
-          // Carrega os dados iniciais assim que o app for montado
-          await this.fetchAllData();
-          this.loading = false;
-        },
-      });
-
-      // Monta a aplicação Vue no elemento #app
-      app.mount("#app");
     </script>
-  </body>
+</body>
 </html>
+
