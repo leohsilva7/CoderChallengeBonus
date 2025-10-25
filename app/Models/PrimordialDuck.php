@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use PhpParser\Node\Stmt\Return_;
@@ -36,5 +37,15 @@ class PrimordialDuck extends Model
     public function analysis():HasOne
     {
         return $this->hasOne(DuckAnalysis::class, 'primordial_duck_id');
+    }
+    public function DuckMission(): HasMany
+    {
+        return $this->hasMany(CaptureMission::class, 'primordial_duck_id', 'id');
+    }
+    public function DuckWeaknesses(): BelongsToMany
+    {
+        return $this->belongsToMany(Weaknesses::class, 'duck_weaknesses', 'primordial_duck_id', 'weakness_id')
+            ->withPivot('discovered_by')
+            ->withTimestamps();
     }
 }
