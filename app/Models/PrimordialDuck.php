@@ -35,6 +35,6 @@ class PrimordialDuck extends Model
     }
     public function analysis():HasOne
     {
-        return $this->hasOne(DuckAnalyse::class, 'primordial_duck_id');
+        return $this->hasOne(DuckAnalysis::class, 'primordial_duck_id');
     }
 }

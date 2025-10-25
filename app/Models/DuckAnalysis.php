@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DuckAnalyse extends Model
+class DuckAnalysis extends Model
 {
     protected $fillable =[
         'operational_cost',
