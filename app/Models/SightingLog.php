@@ -22,9 +22,9 @@ class SightingLog extends Model
         'sighted_at' => 'datetime'
     ];
     public function DuckSight():BelongsTo{
-        return $this->belongsTo(PrimordialDuck::class);
+        return $this->belongsTo(PrimordialDuck::class, 'primordial_duck_id', 'id');
     }
     public function DroneSight():BelongsTo{
-        return $this->belongsTo(SurveyDrone::class);
+        return $this->belongsTo(SurveyDrone::class, 'survey_drone_id', 'id');
     }
 }

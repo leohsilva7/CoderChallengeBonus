@@ -46,7 +46,7 @@ class SurveyDroneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SurveyDrone $id)
+    public function show(string $id)
     {
         $surveyDrone = SurveyDrone::findOrFail($id);
 
